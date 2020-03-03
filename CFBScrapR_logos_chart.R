@@ -242,10 +242,10 @@ chartdata <- yards.per.play %>% left_join(cfblogos, by = c("offense_play" = "sch
 chartdata %>% ggplot(aes(x=ypp.rush, y=ypp.pass)) + geom_image(image = chartdata$logo, asp = 16/9) +
   geom_vline(xintercept = mean(chartdata$ypp.rush), linetype = "dashed", color = "red") +
   geom_hline(yintercept = mean(chartdata$ypp.pass), linetype = "dashed", color = "red") +
-  labs(y = "Yards per Pass",
-       x = "Yards per Rush",
+  labs(y = "Offense Yards per Pass",
+       x = "Offense Yards per Rush",
        caption = "Figure: @SaiemGilani | Data: @CFB_data with #cfbscrapR",
-       title = "Team Yards Per Rush and Yards Per Pass",
+       title = "Team Offense - Yards Per Rush and Yards Per Pass",
        subtitle = "2019 Season") +
   theme_bw() +
   theme(
@@ -257,6 +257,35 @@ chartdata %>% ggplot(aes(x=ypp.rush, y=ypp.pass)) + geom_image(image = chartdata
     plot.caption = element_text(size = 10))
 
 ggsave('ypp.png')
+
+yards.per.play <- pbp_2019 %>% filter(rush == 1 | pass == 1) %>% 
+  group_by(defense_play) %>% 
+  summarise(ypp.rush = mean(yards_gained[rush==1]), 
+            ypp.pass = mean(yards_gained[pass==1]),
+            num.plays = n()) %>% filter(num.plays > 600) 
+
+cfblogos <- read.csv("https://raw.githubusercontent.com/saiemgilani/NCAA_FB_EPA/master/logos.csv") %>% select(school, logo)
+
+chartdata <- yards.per.play %>% left_join(cfblogos, by = c("defense_play" = "school"))
+
+chartdata %>% ggplot(aes(x=ypp.rush, y=ypp.pass)) + geom_image(image = chartdata$logo, asp = 16/9) +
+  geom_vline(xintercept = mean(chartdata$ypp.rush), linetype = "dashed", color = "red") +
+  geom_hline(yintercept = mean(chartdata$ypp.pass), linetype = "dashed", color = "red") +
+  labs(y = "Defense Yards per Pass Allowed",
+       x = "Defense Yards per Rush Allowed",
+       caption = "Figure: @SaiemGilani | Data: @CFB_data with #cfbscrapR",
+       title = "Team Defense - Yards Per Rush Allowed and Yards Per Pass Allowed",
+       subtitle = "2019 Season") +
+  theme_bw() +
+  theme(
+    axis.text = element_text(size = 10),
+    axis.title.x = element_text(size = 12),
+    axis.title.y = element_text(size = 12),
+    plot.title = element_text(size = 14),
+    plot.subtitle = element_text(size = 12),
+    plot.caption = element_text(size = 10))
+
+ggsave('dypp.png')
 
 epa.off <- pbp_2019 %>% filter(rush == 1 | pass == 1) %>%
   group_by(offense_play) %>% 
