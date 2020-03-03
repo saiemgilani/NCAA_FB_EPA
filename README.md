@@ -1,4 +1,4 @@
-## Using cfbscrapR to create EPA visuals ## <br />
+## Using cfbscrapR to create EPA visuals 
 **Team Efficiency - Offensive Rush EPA/Offensive Pass EPA**<br />
 <a href="url"><img src="https://github.com/saiemgilani/NCAA_FB_EPA/blob/master/team_epa_logos.png" width="300"></a><br />
 
