@@ -11,7 +11,7 @@ for(i in 1:15){
   df <- data.frame(data)
   pbp_2019 <- bind_rows(pbp_2019, df)
 }
-write.csv(pbp_2019,"pbp_2019.csv",row.names=F)
+# write.csv(pbp_2019,"pbp_2019.csv",row.names=F)
 head(pbp_2019)
 tail(pbp_2019)
 
@@ -40,7 +40,7 @@ defense <- plays %>% group_by(defense_play) %>% summarise(epa.pass.def = mean(EP
 
 #Offensive Team Pass/Rush EPA
 team_epa <- left_join(offense, defense, by = c("offense_play" = "defense_play")) 
-cfblogos <- read.csv("https://raw.githubusercontent.com/spfleming/CFB/master/logos.csv") %>% select(school, logo)
+cfblogos <- read.csv("https://raw.githubusercontent.com/saiemgilani/NCAA_FB_EPA/master/logos.csv") %>% select(school, logo)
 
 team.epa <- team_epa %>% left_join(cfblogos, by = c("offense_play" = "school"))
 
@@ -235,7 +235,7 @@ yards.per.play <- pbp_2019 %>% filter(rush == 1 | pass == 1) %>%
             ypp.pass = mean(yards_gained[pass==1]),
             num.plays = n()) %>% filter(num.plays > 600) 
 
-cfblogos <- read.csv("https://raw.githubusercontent.com/spfleming/CFB/master/logos.csv") %>% select(school, logo)
+cfblogos <- read.csv("https://raw.githubusercontent.com/saiemgilani/NCAA_FB_EPA/master/logos.csv") %>% select(school, logo)
 
 chartdata <- yards.per.play %>% left_join(cfblogos, by = c("offense_play" = "school"))
 
@@ -270,7 +270,7 @@ epa.def <- pbp_2019 %>% filter(rush == 1 | pass == 1) %>%
 
 team.epa <- left_join(epa.off, epa.def, by = c("offense_play" = "defense_play"))
 
-cfblogos <- read.csv("https://raw.githubusercontent.com/spfleming/CFB/master/logos.csv") %>% select(school, logo)
+cfblogos <- read.csv("https://raw.githubusercontent.com/saiemgilani/NCAA_FB_EPA/master/logos.csv") %>% select(school, logo)
 
 chartdata <- team.epa %>% left_join(cfblogos, by = c("offense_play" = "school"))
 
