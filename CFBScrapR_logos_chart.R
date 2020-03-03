@@ -1,6 +1,13 @@
-  # devtools::install_github("meysubb/cfbscrapR")
+##################################
+# If this is your first time working with R (or tidyverse/ggimage), cfbscrapR, or GT:
+# Uncomment and install  by running the below four lines as necessary
+# install.packages("tidyverse")
+# install.packages("ggimage")
+# devtools::install_github("meysubb/cfbscrapR")
 # remotes::install_github("rstudio/gt")
+
 library(tidyverse)
+library(ggimage)
 library(cfbscrapR)
 library(gt)
 
@@ -217,17 +224,6 @@ team.epa %>% arrange(desc(epa.pass.off)) %>% mutate(rank = dense_rank(desc(epa.p
   tab_header(title = "Best Passing Teams") %>%
   cols_label(rank = "Rank", offense_play = "Offense", epa.pass.off = "EPA/Attempt")
 
-library(tidyverse)
-library(ggimage)
-library(cfbscrapR)
-library(ncaahoopR)
-
-pbp_2019 <- data.frame()
-for(i in 1:15){
-  data <- cfb_pbp_data(year = 2019, season_type = "both", week = i, epa_wpa = TRUE) %>% mutate(week = i)
-  df <- data.frame(data)
-  pbp_2019 <- bind_rows(pbp_2019, df)
-}
 
 yards.per.play <- pbp_2019 %>% filter(rush == 1 | pass == 1) %>% 
   group_by(offense_play) %>% 
